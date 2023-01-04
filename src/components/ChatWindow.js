@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -7,10 +7,12 @@ import CloseIcon from "@mui/icons-material/Close";
 import SendIcon from "@mui/icons-material/Send";
 import MicIcon from "@mui/icons-material/Mic";
 import EmojiPicker from "emoji-picker-react";
+import MessageItem from "../components/MessageItem";
 import "./ChatWindow.css";
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default () => {
+export default ({ user }) => {
+  const body = useRef();
   let recognition = null;
   let SpeechRecognition =
     window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -20,6 +22,37 @@ export default () => {
   const [listening, setListening] = useState(false);
   const [emojiOpen, setEmojiOpen] = useState(false);
   const [text, setText] = useState("");
+  const [list, setList] = useState([
+    { author: 123, body: "testando se está funcionando" },
+    { author: 1234, body: "se estiver funcionando, Deus é mais" },
+    { author: 123, body: "Pelo amor de Deus tomara que não dê erro " },
+    { author: 123, body: "testando se está funcionando" },
+    { author: 1234, body: "se estiver funcionando, Deus é mais" },
+    { author: 123, body: "Pelo amor de Deus tomara que não dê erro " },
+    { author: 123, body: "testando se está funcionando" },
+    { author: 1234, body: "se estiver funcionando, Deus é mais" },
+    { author: 123, body: "Pelo amor de Deus tomara que não dê erro " },
+    { author: 123, body: "testando se está funcionando" },
+    { author: 1234, body: "se estiver funcionando, Deus é mais" },
+    { author: 123, body: "Pelo amor de Deus tomara que não dê erro " },
+    { author: 123, body: "testando se está funcionando" },
+    { author: 1234, body: "se estiver funcionando, Deus é mais" },
+    { author: 123, body: "Pelo amor de Deus tomara que não dê erro " },
+    { author: 123, body: "testando se está funcionando" },
+    { author: 1234, body: "se estiver funcionando, Deus é mais" },
+    { author: 123, body: "Pelo amor de Deus tomara que não dê erro " },
+    { author: 123, body: "testando se está funcionando" },
+    { author: 1234, body: "se estiver funcionando, Deus é mais" },
+    { author: 123, body: "Pelo amor de Deus tomara que não dê erro " },
+  ]);
+
+  useEffect(() => {
+    if (body.current.scrollHeight > body.current.offsetHeight) {
+      body.current.scrollTop =
+        body.current.scrollHeight - body.current.offsetHeight;
+    }
+  }, [list]);
+
   const handleEmojiClick = (e, emojiObject) => {
     setText(text + emojiObject.emoji);
   };
@@ -73,7 +106,11 @@ export default () => {
           </div>
         </div>
       </div>
-      <div className="chatWindow--body"></div>
+      <div ref={body} className="chatWindow--body">
+        {list.map((item, key) => (
+          <MessageItem key={key} data={item} user={user} />
+        ))}
+      </div>
 
       <div
         className="chatWindow--emojiarea"

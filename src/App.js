@@ -8,8 +8,16 @@ import "./App.css";
 import ChatListItem from "./components/ChatListItem";
 import ChatIntro from "./components/ChatIntro";
 import ChatWindow from "./components/ChatWindow";
+import NewChat from "./components/NewChat";
 
 export default () => {
+  const [showNewChat, setShowNewChat] = useState(false);
+  const [user, setUser] = useState({
+    id: 1234,
+    avatar:
+      "https://scontent.fjdo10-2.fna.fbcdn.net/v/t31.18172-8/19250711_1337165323063391_4292727543438955280_o.jpg?_nc_cat=109&ccb=1-7&_nc_sid=8bfeb9&_nc_eui2=AeHPMxMOsg9sh38dNHZNeFatq7O-O3w7Rz2rs747fDtHPYFm8_xPbTBNAawJ5t5btd2tw7Kylafu1rKetK6EKmp1&_nc_ohc=68LieUhrUpAAX8qdH9C&_nc_ht=scontent.fjdo10-2.fna&oh=00_AfCMiOwSidnBdCElwanXRVdmuyBzJdrqQT1sDWzVzl0xCw&oe=63DA5720",
+    name: "Misael Lima",
+  });
   const [chatlist, setChatList] = useState([
     {
       chatId: 1,
@@ -41,21 +49,27 @@ export default () => {
     },
   ]);
   const [activeChat, setActiveChat] = useState({});
+
+  const handleNewChat = () => {
+    setShowNewChat(true);
+  };
   return (
     <div className="app-window">
       <div className="sidebar">
+        <NewChat
+          chatlist={chatlist}
+          user={user}
+          show={showNewChat}
+          setShow={setShowNewChat}
+        />
         <header>
-          <img
-            className="header--avatar"
-            src="https://scontent.fjdo10-2.fna.fbcdn.net/v/t1.6435-9/127181913_1433479803510591_8842082923057105892_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=8bfeb9&_nc_ohc=7tCGA1WLjD0AX-ZMA1Z&_nc_ht=scontent.fjdo10-2.fna&oh=00_AfBXcc7UXH6uWEBYy23yosL3kFeyCmEfjuzCBgwhqeze5Q&oe=63D68917"
-            alt=""
-          />
+          <img className="header--avatar" src={user.avatar} alt="" />
 
           <div className="header--buttons"></div>
           <div className="header--btn">
             <DonutLargeIcon style={{ color: "#919191" }} />
           </div>
-          <div className="header--btn">
+          <div onClick={handleNewChat} className="header--btn">
             <ChatIcon style={{ color: "#919191" }} />
           </div>
           <div className="header--btn">
@@ -83,7 +97,7 @@ export default () => {
         </div>
       </div>
       <div className="contentarea">
-        {activeChat.chatId !== undefined && <ChatWindow />}
+        {activeChat.chatId !== undefined && <ChatWindow user={user} />}
         {activeChat.chatId === undefined && <ChatIntro />}
       </div>
     </div>

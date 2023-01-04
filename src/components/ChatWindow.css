@@ -86,7 +86,6 @@
   margin: 0 15px;
 }
 .chatWindow--emojiarea {
-  height: 200px;
   overflow-y: hidden;
   transition: all ease 0.3s;
 }
